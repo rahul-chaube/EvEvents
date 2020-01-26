@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "233752448925",
+    "firebase_url": "https://ezevent-42db9.firebaseio.com",
+    "project_id": "ezevent-42db9",
+    "storage_bucket": "ezevent-42db9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:233752448925:android:6925e68ac4b82601402974",
+        "android_client_info": {
+          "package_name": "com.ezevent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "233752448925-e7hi5qjcv70vp03nb2e5jmlni6lo7ggt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ezevent",
+            "certificate_hash": "65b2fe3675aa8fbcd2379523dacddda81907f685"
+          }
+        },
+        {
+          "client_id": "233752448925-iuoan0rhbomjvh1mn3sgdi7tqio8dg5a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_YXr0pCxU8qGN6gwZWUq8lSBVI8Ui22w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "233752448925-iuoan0rhbomjvh1mn3sgdi7tqio8dg5a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
