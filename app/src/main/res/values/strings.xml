@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">EzEvent</string>
+    <string name="enter_user_name">Enter User Name</string>
+    <string name="enter_your_password">Enter Your Password</string>
+    <string name="enter_your_email">Enter Your Email</string>
+    <string name="enter_your_mobile_number">Enter Your Mobile Number</string>
+    <string name="register">Register</string>
+    <string name="re_enter_your_password">Re-enter Your Password</string>
+    <string name="create_new_user">Create New User</string>
+    <string name="forgot_password">Forgot Password ?</string>
+    <string name="login">Login</string>
+    <string name="forgot_send">Send</string>
 </resources>

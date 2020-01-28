@@ -8,4 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    if your are using appcompat >v22 you can try using
+
+    <style name="EditText.Colored" parent="AppTheme">
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
+        <item name="editTextColor">@color/white</item>
+        <item name="android:textColorHint">@color/white</item>
+
+    </style>
 </resources>

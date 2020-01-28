@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "233752448925-i2iae2jrk8ucf3v3opnjnhp437jfushl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ezevent",
+            "certificate_hash": "b5dfbc08baeb6328d968baebc2d4f19a59e2a241"
+          }
+        },
+        {
           "client_id": "233752448925-e7hi5qjcv70vp03nb2e5jmlni6lo7ggt.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
