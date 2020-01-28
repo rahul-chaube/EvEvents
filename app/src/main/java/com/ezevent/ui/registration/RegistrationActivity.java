@@ -161,8 +161,13 @@ public class RegistrationActivity extends AppCompatActivity {
         boolean isAllSet=true;
         if (textInputEditTextEmail.getText().toString().isEmpty())
         {
+            textInputLayoutEmail.setErrorEnabled(true);
             textInputLayoutEmail.setError("Enter Email ID ");
             isAllSet=false;
+        }
+        else
+        {
+            textInputLayoutEmail.setErrorEnabled(false);
         }
 
         if (textInputEditTextUserName.getText().toString().isEmpty())
