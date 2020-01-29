@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ezevent.R;
+import com.ezevent.controller.Utility;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -30,27 +31,28 @@ import java.util.concurrent.TimeUnit;
 public class RegistrationActivity extends AppCompatActivity {
     String mVerificationId;
 
-    TextInputLayout textInputLayoutEmail,textInputLayoutMobile,textInputLayoutUserName,textInputLayoutPassword,textInputLayoutCnfPassword;
-    TextInputEditText textInputEditTextEmail,textInputEditTextMobile,textInputEditTextPassword,textInputEditTextUserName,textInputEditTextCnfPassowrd;
+    TextInputLayout textInputLayoutEmail, textInputLayoutMobile, textInputLayoutUserName, textInputLayoutPassword, textInputLayoutCnfPassword;
+    TextInputEditText textInputEditTextEmail, textInputEditTextMobile, textInputEditTextPassword, textInputEditTextUserName, textInputEditTextCnfPassowrd;
     private FirebaseAuth mAuth;
     PhoneAuthProvider.ForceResendingToken mResendToken;
+    String TAG = "Registration Activity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        textInputLayoutEmail=findViewById(R.id.textInputLayoutUserEmail);
-        textInputLayoutMobile=findViewById(R.id.textInputLayoutMobileNumber);
-        textInputLayoutUserName=findViewById(R.id.textInputLayoutUserName);
-        textInputLayoutPassword=findViewById(R.id.textInputLayoutPassword);
-        textInputLayoutCnfPassword=findViewById(R.id.textInputLayoutCnfPassword);
+        textInputLayoutEmail = findViewById(R.id.textInputLayoutUserEmail);
+        textInputLayoutMobile = findViewById(R.id.textInputLayoutMobileNumber);
+        textInputLayoutUserName = findViewById(R.id.textInputLayoutUserName);
+        textInputLayoutPassword = findViewById(R.id.textInputLayoutPassword);
+        textInputLayoutCnfPassword = findViewById(R.id.textInputLayoutCnfPassword);
 
-        textInputEditTextEmail=findViewById(R.id.userEmail);
-        textInputEditTextMobile=findViewById(R.id.userMobileNumber);
-        textInputEditTextUserName=findViewById(R.id.userName);
-        textInputEditTextPassword=findViewById(R.id.userPassword);
-        textInputEditTextCnfPassowrd=findViewById(R.id.userCnfPassword);
+        textInputEditTextEmail = findViewById(R.id.userEmail);
+        textInputEditTextMobile = findViewById(R.id.userMobileNumber);
+        textInputEditTextUserName = findViewById(R.id.userName);
+        textInputEditTextPassword = findViewById(R.id.userPassword);
+        textInputEditTextCnfPassowrd = findViewById(R.id.userCnfPassword);
 
         mAuth = FirebaseAuth.getInstance();
 //        PhoneAuthProvider.getInstance().verifyPhoneNumber("+917058239556", 60, TimeUnit.SECONDS, this, new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -158,51 +160,73 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     public void createNewUser(View view) {
-        boolean isAllSet=true;
-        if (textInputEditTextEmail.getText().toString().isEmpty())
-        {
+        boolean isAllSet = true;
+        if (textInputEditTextEmail.getText().toString().isEmpty()) {
+            Log.e(TAG, "Email error is Disabled ");
             textInputLayoutEmail.setErrorEnabled(true);
             textInputLayoutEmail.setError("Enter Email ID ");
-            isAllSet=false;
-        }
-        else
+            isAllSet = false;
+        } else  if (!Utility.isValidEmail(textInputEditTextEmail.getText().toString().trim()))
         {
+            textInputLayoutEmail.setErrorEnabled(true);
+            textInputLayoutEmail.setError("Email ID wrong");
+        }
+        else {
+            Log.e(TAG, "Email error is Disabled ");
+            textInputEditTextEmail.setError(null);
             textInputLayoutEmail.setErrorEnabled(false);
         }
 
-        if (textInputEditTextUserName.getText().toString().isEmpty())
-        {
+        if (textInputEditTextUserName.getText().toString().isEmpty()) {
             textInputLayoutUserName.setError("Enter User Name ");
-            isAllSet=false;
+            textInputLayoutUserName.setErrorEnabled(true);
+            isAllSet = false;
         }
-        if (textInputEditTextMobile.getText().toString().isEmpty())
+        else
         {
-            textInputLayoutEmail.setError("Enter Mobile Number");
-            isAllSet=false;
+            textInputLayoutUserName.setError(null);
+            textInputLayoutUserName.setErrorEnabled(false);
         }
-        if (textInputEditTextPassword.getText().toString().isEmpty())
+        if (textInputEditTextMobile.getText().toString().isEmpty()) {
+            textInputLayoutMobile.setError("Enter Mobile Number");
+            textInputLayoutMobile.setErrorEnabled(true);
+            isAllSet = false;
+        } else if (textInputEditTextMobile.getText().toString().trim().length() != 10) {
+            textInputLayoutMobile.setError("Invalid Mobile Number");
+            textInputLayoutMobile.setErrorEnabled(true);
+            isAllSet = false;
+        }
+        else
         {
+            textInputLayoutMobile.setErrorEnabled(false);
+
+        }
+        if (textInputEditTextPassword.getText().toString().isEmpty()) {
             textInputLayoutPassword.setError("Enter Password");
-            isAllSet=false;
+            isAllSet = false;
         }
-        if (textInputEditTextCnfPassowrd.getText().toString().isEmpty())
-        {
-            textInputLayoutCnfPassword.setError("Enter Email ID ");
-            isAllSet=false;
+        else {
+            textInputLayoutPassword.setError(null);
+            textInputLayoutPassword.setErrorEnabled(false);
         }
-        if (!textInputEditTextCnfPassowrd.getText().toString().trim().equals(textInputEditTextPassword.getText().toString().trim()))
-        {
+        if (textInputEditTextCnfPassowrd.getText().toString().isEmpty()) {
+            textInputLayoutCnfPassword.setError("Enter Password ");
+            textInputLayoutCnfPassword.setErrorEnabled(true);
+            isAllSet = false;
+        } else if (!textInputEditTextCnfPassowrd.getText().toString().trim().equals(textInputEditTextPassword.getText().toString().trim())) {
             textInputLayoutCnfPassword.setError("Password Not Matched ");
-            isAllSet=false;
+            textInputLayoutCnfPassword.setErrorEnabled(true);
+            isAllSet = false;
+        }
+        else
+        {
+            textInputLayoutCnfPassword.setError(null);
+            textInputLayoutCnfPassword.setErrorEnabled(false);
+
         }
 
-        if (textInputEditTextMobile.getText().toString().trim().length()!=10)
-        {
-            textInputLayoutMobile.setError("Invalid Mobile Number");
-            isAllSet=false;
-        }
-        if (isAllSet)
-        {
+
+        if (isAllSet) {
             Toast.makeText(this, "All data filled ", Toast.LENGTH_SHORT).show();
         }
 

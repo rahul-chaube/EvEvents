@@ -49,6 +49,7 @@
         android:textColor="@color/white"
         android:theme="@style/EditText.Colored"
         app:layout_constraintEnd_toEndOf="parent"
+
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutMobile"
@@ -58,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/userPassword"
+            android:inputType="textPassword"
             android:hint="@string/enter_your_password"
             android:textColor="@color/white"
             android:theme="@style/EditText.Colored" />
