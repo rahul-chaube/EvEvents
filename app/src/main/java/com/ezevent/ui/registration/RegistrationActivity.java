@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,8 +14,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ezevent.R;
+import com.ezevent.controller.Constants;
 import com.ezevent.controller.Utility;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -25,6 +28,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.concurrent.TimeUnit;
 
@@ -36,12 +41,13 @@ public class RegistrationActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     PhoneAuthProvider.ForceResendingToken mResendToken;
     String TAG = "Registration Activity";
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-
+        firebaseAuth = FirebaseAuth.getInstance();
         textInputLayoutEmail = findViewById(R.id.textInputLayoutUserEmail);
         textInputLayoutMobile = findViewById(R.id.textInputLayoutMobileNumber);
         textInputLayoutUserName = findViewById(R.id.textInputLayoutUserName);
@@ -166,12 +172,10 @@ public class RegistrationActivity extends AppCompatActivity {
             textInputLayoutEmail.setErrorEnabled(true);
             textInputLayoutEmail.setError("Enter Email ID ");
             isAllSet = false;
-        } else  if (!Utility.isValidEmail(textInputEditTextEmail.getText().toString().trim()))
-        {
+        } else if (!Utility.isValidEmail(textInputEditTextEmail.getText().toString().trim())) {
             textInputLayoutEmail.setErrorEnabled(true);
             textInputLayoutEmail.setError("Email ID wrong");
-        }
-        else {
+        } else {
             Log.e(TAG, "Email error is Disabled ");
             textInputEditTextEmail.setError(null);
             textInputLayoutEmail.setErrorEnabled(false);
@@ -181,9 +185,7 @@ public class RegistrationActivity extends AppCompatActivity {
             textInputLayoutUserName.setError("Enter User Name ");
             textInputLayoutUserName.setErrorEnabled(true);
             isAllSet = false;
-        }
-        else
-        {
+        } else {
             textInputLayoutUserName.setError(null);
             textInputLayoutUserName.setErrorEnabled(false);
         }
@@ -195,17 +197,14 @@ public class RegistrationActivity extends AppCompatActivity {
             textInputLayoutMobile.setError("Invalid Mobile Number");
             textInputLayoutMobile.setErrorEnabled(true);
             isAllSet = false;
-        }
-        else
-        {
+        } else {
             textInputLayoutMobile.setErrorEnabled(false);
 
         }
         if (textInputEditTextPassword.getText().toString().isEmpty()) {
             textInputLayoutPassword.setError("Enter Password");
             isAllSet = false;
-        }
-        else {
+        } else {
             textInputLayoutPassword.setError(null);
             textInputLayoutPassword.setErrorEnabled(false);
         }
@@ -217,9 +216,7 @@ public class RegistrationActivity extends AppCompatActivity {
             textInputLayoutCnfPassword.setError("Password Not Matched ");
             textInputLayoutCnfPassword.setErrorEnabled(true);
             isAllSet = false;
-        }
-        else
-        {
+        } else {
             textInputLayoutCnfPassword.setError(null);
             textInputLayoutCnfPassword.setErrorEnabled(false);
 
@@ -228,7 +225,66 @@ public class RegistrationActivity extends AppCompatActivity {
 
         if (isAllSet) {
             Toast.makeText(this, "All data filled ", Toast.LENGTH_SHORT).show();
+
+            createUser(textInputEditTextEmail.getText().toString().trim(), textInputEditTextPassword.getText().toString().trim(),
+                    textInputEditTextUserName.getText().toString().trim(), textInputEditTextMobile.getText().toString().trim());
         }
 
+    }
+
+    private void createUser(final String email, final String password, final String userName, final String mobileNumber) {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Adding User ...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    saveUserDetails(task.getResult().getUser().getUid(), email, password, userName, mobileNumber);
+                } else {
+
+                    Log.e("Error Auth ",task.getException().getMessage());
+                    task.getException().printStackTrace();
+                    Toast.makeText(RegistrationActivity.this, " " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                progressDialog.dismiss();
+            }
+        });
+    }
+
+    private void saveUserDetails(String uid, String email, String password, String userName, String mobileNumber) {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Saving User Details ... ");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+
+        RegisterUserModel registerUserModel = new RegisterUserModel(email, uid, userName, mobileNumber, password);
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference(Constants.USER_NODE);
+        databaseReference.child(uid).setValue(registerUserModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(RegistrationActivity.this, "User Created ", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e("Error in saving Data ",task.getException().getMessage());
+                    task.getException().printStackTrace();
+                    Toast.makeText(RegistrationActivity.this, "Failed to save Data ", Toast.LENGTH_SHORT).show();
+                }
+
+                progressDialog.dismiss();
+
+                finish();
+            }
+        }).addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressDialog.dismiss();
+                Toast.makeText(RegistrationActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
     }
 }

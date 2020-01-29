@@ -12,7 +12,8 @@
         <activity android:name=".ui.forgot.ForgotActivity"></activity>
         <activity
             android:name=".ui.registration.RegistrationActivity"
-            android:label="Register" />
+            android:label="Register"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="Login" />
