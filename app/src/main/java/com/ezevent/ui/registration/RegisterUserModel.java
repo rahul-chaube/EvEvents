@@ -3,6 +3,7 @@ package com.ezevent.ui.registration;
 public class RegisterUserModel {
     private String email,uid,userName,mobileNumber,password;
     private  long createDate;
+    int my_balance;
 
     public long getCreateDate() {
         return createDate;
@@ -22,6 +23,7 @@ public class RegisterUserModel {
         this.mobileNumber = mobileNumber;
         this.password = password;
         this.createDate=System.currentTimeMillis();
+        this.my_balance=100;
     }
 
     public String getEmail() {

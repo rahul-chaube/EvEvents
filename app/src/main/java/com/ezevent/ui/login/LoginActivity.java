@@ -131,7 +131,7 @@ public class LoginActivity extends AppCompatActivity {
         prefManager.setUserID(registerUserModel.getUid());
         prefManager.setUserMobile(registerUserModel.getMobileNumber());
         prefManager.setUserName(registerUserModel.getUserName());
-
+        prefManager.setLogin(true);
         startActivity(new Intent(this, HomeActivity.class));
         finish();
     }

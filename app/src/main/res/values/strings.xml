@@ -10,4 +10,16 @@
     <string name="forgot_password">Forgot Password ?</string>
     <string name="login">Login</string>
     <string name="forgot_send">Send</string>
+    <string name="enter_description">Enter Description</string>
+    <string name="pubg">PUBG</string>
+    <string name="counter_strike">Counter-Strike</string>
+    <string name="select_game_type">Select Game Type</string>
+    <string name="enter_password_for_game">Enter password for game</string>
+    <string name="create_game">Create Game</string>
+    <string name="enter_id_for_game">Enter id for Game</string>
+    <string name="select_game">Select Game:</string>
+    <string name="price">Price</string>
+    <string name="enter_nor_player">Enter Nor player</string>
+    <string name="game_title">Game Title</string>
+
 </resources>
