@@ -9,14 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.forgot.ForgotActivity"></activity>
+        <activity android:name=".ui.home.HomeActivity"></activity>
+        <activity
+            android:name=".ui.forgot.ForgotActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".ui.registration.RegistrationActivity"
             android:label="Register"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".ui.login.LoginActivity"
-            android:label="Login" />
+            android:label="Login"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".ui.splash.MainActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">

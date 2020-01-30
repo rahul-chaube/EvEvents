@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<ScrollView android:layout_height="match_parent"
+    android:background="@drawable/background_drawable" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_drawable"
+    android:layout_height="wrap_content"
+
     tools:context=".ui.login.LoginActivity">
 
     <TextView
@@ -34,8 +37,9 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/userMobileNumber"
-            android:hint="@string/enter_your_mobile_number"
+            android:id="@+id/userEmail"
+            android:inputType="textEmailAddress"
+            android:hint="@string/enter_your_email"
             android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -82,12 +86,12 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
     <TextView
+        android:padding="16dp"
         android:onClick="forgotPassword"
         android:id="@+id/textViewForgotPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
         android:layout_marginEnd="8dp"
         android:text="@string/forgot_password"
         android:textColor="@color/white"
@@ -98,11 +102,11 @@
         app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
 
     <TextView
+        android:padding="16dp"
         android:onClick="createNewUser"
         android:id="@+id/textViewCreateNewUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
         android:layout_marginEnd="8dp"
         android:text="@string/create_new_user"
         android:textColor="@color/white"
@@ -111,3 +115,4 @@
         app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

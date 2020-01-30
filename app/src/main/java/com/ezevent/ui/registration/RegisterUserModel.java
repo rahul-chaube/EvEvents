@@ -2,6 +2,18 @@ package com.ezevent.ui.registration;
 
 public class RegisterUserModel {
     private String email,uid,userName,mobileNumber,password;
+    private  long createDate;
+
+    public long getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate() {
+        this.createDate = System.currentTimeMillis();
+    }
+
+    public RegisterUserModel() {
+    }
 
     public RegisterUserModel(String email, String uid, String userName, String mobileNumber, String password) {
         this.email = email;
@@ -9,6 +21,7 @@ public class RegisterUserModel {
         this.userName = userName;
         this.mobileNumber = mobileNumber;
         this.password = password;
+        this.createDate=System.currentTimeMillis();
     }
 
     public String getEmail() {

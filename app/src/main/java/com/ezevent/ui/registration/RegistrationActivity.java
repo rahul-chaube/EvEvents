@@ -262,7 +262,8 @@ public class RegistrationActivity extends AppCompatActivity {
         RegisterUserModel registerUserModel = new RegisterUserModel(email, uid, userName, mobileNumber, password);
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = firebaseDatabase.getReference(Constants.USER_NODE);
+        DatabaseReference databaseReference = firebaseDatabase.getReference().child(Constants.USER_NODE);
+
         databaseReference.child(uid).setValue(registerUserModel).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
