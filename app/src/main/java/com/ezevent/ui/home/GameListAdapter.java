@@ -1,0 +1,78 @@
+package com.ezevent.ui.home;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.ezevent.R;
+import com.ezevent.ui.creategame.GameDescription;
+
+import java.util.ArrayList;
+
+public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHolder> {
+
+    Context context;
+    ArrayList<GameDescription> data;
+
+    public GameListAdapter(Context context, ArrayList<GameDescription> data) {
+        this.context = context;
+        this.data = data;
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.game_item,parent,false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        GameDescription gameDescription=data.get(position);
+        holder.textViewDescription.setText(gameDescription.getDescription());
+        holder.textViewNoOfPlayer.setText("No of  Player : "+gameDescription.getNumberOfPlayer());
+        holder.textViewPrize.setText("Prize \u20B9 "+gameDescription.getPrice());
+        holder.textViewGameName.setText(gameDescription.getTitle());
+        if (gameDescription.isPubg())
+            Glide.with(context).load(R.drawable.pubg).into(holder.imageViewIcon);
+        else
+            Glide.with(context).load(R.drawable.cs).into(holder.imageViewIcon);
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "Game is Clicked ", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return data.size();
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+        CardView cardView;
+        ImageView  imageViewIcon;
+        TextView textViewGameName,textViewPrize,textViewDate,textViewNoOfPlayer,textViewDescription;
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            cardView=itemView.findViewById(R.id.main);
+            imageViewIcon=itemView.findViewById(R.id.gameIcon);
+            textViewGameName=itemView.findViewById(R.id.gameName);
+            textViewPrize=itemView.findViewById(R.id.prize);
+            textViewNoOfPlayer=itemView.findViewById(R.id.NoOfPlayer);
+            textViewDate=itemView.findViewById(R.id.startDate);
+            textViewDescription=itemView.findViewById(R.id.gameDescription);
+        }
+    }
+}

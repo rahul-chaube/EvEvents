@@ -38,7 +38,7 @@ public class CreateGameActivity extends AppCompatActivity {
     PrefManager prefManager;
     List<GameCreator> playerList;
 
-    boolean gameType=true, isPrivate =false;
+    boolean isPubg =true, isPrivate =false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,9 +111,9 @@ public class CreateGameActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (radioButtonPubg.isChecked())
-                    gameType=false;
+                    isPubg =true;
                 else
-                    isPrivate =true;  // Counter Strike is Default
+                    isPrivate =false;  // Counter Strike is Default
             }
 
         });
@@ -199,7 +199,7 @@ public class CreateGameActivity extends AppCompatActivity {
             allSet=allSet && true;
         }
 
-        gameDescription.setPubg(gameType);
+        gameDescription.setPubg(isPubg);
         gameDescription.setPrivate(isPrivate);
 
         if (isPrivate)
