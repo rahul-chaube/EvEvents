@@ -1,6 +1,8 @@
 package com.ezevent.ui.creategame;
 
-class GameCreator
+import java.io.Serializable;
+
+class GameCreator implements Serializable
 {
     String userName,userId,mobileNumber;
 

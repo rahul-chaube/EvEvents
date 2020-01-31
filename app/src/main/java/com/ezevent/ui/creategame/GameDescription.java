@@ -1,8 +1,9 @@
 package com.ezevent.ui.creategame;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class GameDescription {
+public class GameDescription implements Serializable {
     String gameId;
     String title,description,price;
     boolean isPrivate,isPubg;
