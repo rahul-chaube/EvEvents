@@ -15,5 +15,14 @@ public class Constants {
 
 
     public static final String GAME_DETAILS="game_details";
+    public static final String GAMER_LIST="gamerList";
+    public static final String My_GAMELSIT="My_GAMES";
+
+    public static final String CHAT_ROOM="chatRoom";
+
+    public static final int WELCOME_MESSAGE=0;
+    public static final int NORMAL_MESSAGE=1;
+    public static final int WINNER_ANNOUNCE_MESSAGE=2;
+
 
 }

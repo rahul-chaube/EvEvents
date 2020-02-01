@@ -1,99 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<androidx.cardview.widget.CardView android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:elevation="10dp"
-    app:cardCornerRadius="8dp"
-    android:id="@+id/main"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    app:cardCornerRadius="8dp">
+
     <LinearLayout
-        android:padding="4dp"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="4dp">
 
         <ImageView
-            android:scaleType="fitXY"
-            android:layout_gravity="center"
             android:id="@+id/gameIcon"
-            android:src="@drawable/cs"
             android:layout_width="120dp"
-            android:layout_height="120dp" />
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:scaleType="fitXY"
+            android:src="@drawable/cs" />
 
         <LinearLayout
-            android:layout_gravity="center"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                android:layout_margin="4dp"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:layout_alignParentStart="true"
-                android:id="@+id/gameName"
-                android:text="Game Name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
 
                 <TextView
-                    android:textStyle="bold"
+                    android:id="@+id/gameName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
                     android:layout_margin="4dp"
+                    android:text="Game Name"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/prize"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="4dp"
+                    android:text="Prize \u20B9 1000"
                     android:textColor="@color/green"
                     android:textSize="18sp"
-                    android:layout_alignParentEnd="true"
-                    android:id="@+id/prize"
-                    android:text="Prize \u20B9 1000"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textStyle="bold" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
-                    android:layout_margin="4dp"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:layout_alignParentStart="true"
                     android:id="@+id/NoOfPlayer"
-                    android:text="No of Player : 50"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_margin="4dp"
+                    android:text="No of Player : 50"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
 
                 <TextView
-                    android:textStyle="bold"
-                    android:layout_margin="4dp"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:layout_alignParentEnd="true"
+
                     android:id="@+id/startDate"
-                    android:text="26-Feb-2020"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="4dp"
+                    android:text="26-Feb-2020"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
-                    android:layout_margin="4dp"
-                    android:textSize="14sp"
-                    android:layout_alignParentStart="true"
                     android:id="@+id/gameDescription"
-                    android:text="No of Player : 50"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="No of Player : 50"
+                    android:textSize="14sp" />
             </RelativeLayout>
-
         </LinearLayout>
-
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.ezevent.R;
 import com.ezevent.controller.Constants;
 import com.ezevent.controller.PrefManager;
+import com.ezevent.ui.chatroom.ChatMessage;
+import com.ezevent.ui.gameDetails.GameDetailsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -113,7 +115,7 @@ public class CreateGameActivity extends AppCompatActivity {
                 if (radioButtonPubg.isChecked())
                     isPubg =true;
                 else
-                    isPrivate =false;  // Counter Strike is Default
+                    isPubg =false;  // Counter Strike is Default
             }
 
         });
@@ -204,7 +206,7 @@ public class CreateGameActivity extends AppCompatActivity {
 
         if (isPrivate)
         {
-
+            GameCredentials gameCredentials=new GameCredentials();
             if (textInputEditTextGameUserId.getText().toString().isEmpty())
             {
                 textInputLayoutGameUserId.setError("Enter Game Host Id");
@@ -218,9 +220,9 @@ public class CreateGameActivity extends AppCompatActivity {
             }
             else
             {
-
+                gameCredentials.setGameName(textInputEditTextGameUserId.getText().toString());
                 textInputLayoutGameUserId.setErrorEnabled(false);
-                gameDescription.setDescription(textInputEditTextGameUserId.getText().toString());
+//                gameDescription.setDescription(textInputEditTextGameUserId.getText().toString());
                 allSet=allSet && true;
 
             }
@@ -239,13 +241,14 @@ public class CreateGameActivity extends AppCompatActivity {
             }
             else
             {
+                gameCredentials.setPassword(textInputEditTextGamePassword.getText().toString());
                 textInputLayoutGamePassword.setErrorEnabled(false);
-                gameDescription.setDescription(textInputEditTextGamePassword.getText().toString());
+//                gameDescription.setDescription(textInputEditTextGamePassword.getText().toString());
                 allSet=allSet && true;
 
             }
 
-
+        gameDescription.setGameCredentials(gameCredentials);
 
         }
 
@@ -269,13 +272,15 @@ public class CreateGameActivity extends AppCompatActivity {
         progressDialog.show();
         DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference();
 
-        String key=databaseReference.push().getKey();
+        final String key=databaseReference.push().getKey();
+        gameDescription.setGameId(key);
         databaseReference.child(Constants.GAME_NODE).child(key).setValue(gameDescription).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful())
                 {
-                    finish();
+                    createChatNode(key);
+
                 }
                 else
                     Toast.makeText(CreateGameActivity.this, ""+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -283,4 +288,53 @@ public class CreateGameActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void createChatNode(String key) {
+
+        final ProgressDialog progressDialog=new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Please Wait ... ");
+        progressDialog.show();
+        DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference();
+        ChatMessage chatMessage=new ChatMessage();
+        chatMessage.setMessage(prefManager.getUserName()+" Created  "+gameDescription.getTitle() +" playground");
+        chatMessage.setSenderId(prefManager.getUserId());
+        chatMessage.setSenderName(prefManager.getUserName());
+        chatMessage.setMessageTime(System.currentTimeMillis());
+        chatMessage.setMessageType(Constants.WELCOME_MESSAGE);
+        String massegekey=databaseReference.push().getKey();
+        databaseReference.child(Constants.CHAT_ROOM).child(gameDescription.getGameId()).child(massegekey).setValue(chatMessage).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                progressDialog.dismiss();
+                Toast.makeText(CreateGameActivity.this, "Chat Room is Created ", Toast.LENGTH_SHORT).show();
+                addGroupToPlayerList();
+            }
+        });
+
+
+    }
+
+    private void addGroupToPlayerList() {
+        addToUserNode(gameDescription);
+
+    }
+
+    private void addToUserNode(GameDescription gameDescription) {
+        final ProgressDialog progressDialog=new ProgressDialog(this);
+        progressDialog.setMessage("Please Wait ... ");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+
+        DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference().child(Constants.USER_NODE);
+        databaseReference.child(prefManager.getUserId()).child(Constants.My_GAMELSIT).child(gameDescription.getGameId()).setValue(gameDescription).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                progressDialog.dismiss();
+                finish();
+                Toast.makeText(CreateGameActivity.this, "User Node Updated ", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }

@@ -10,6 +10,7 @@ public class GameDescription implements Serializable {
     long createAt;
     int numberOfPlayer,gameStatus=0;
 
+
     public int getGameStatus() {
         return gameStatus;
     }
@@ -20,6 +21,15 @@ public class GameDescription implements Serializable {
 
     GameCreator creator;
     List<GameCreator> gamerList;
+    GameCredentials gameCredentials;
+
+    public GameCredentials getGameCredentials() {
+        return gameCredentials;
+    }
+
+    public void setGameCredentials(GameCredentials gameCredentials) {
+        this.gameCredentials = gameCredentials;
+    }
 
     public String getGameId() {
         return gameId;
