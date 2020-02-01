@@ -13,4 +13,7 @@ public class Constants {
     public static final String USER_NODE = "users";
     public static final String GAME_NODE="games";
 
+
+    public static final String GAME_DETAILS="game_details";
+
 }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,6 +47,10 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        final ProgressDialog dialog=new ProgressDialog(this);
+        dialog.setMessage("Getting data ...");
+        dialog.show();
+        dialog.setCancelable(false);
         DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child(Constants.GAME_NODE);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -57,12 +62,15 @@ public class HomeActivity extends AppCompatActivity {
                 }
 
                 setRecyclerView(gameDescriptionList);
+                dialog.dismiss();
                 Log.e("Game List Updated "," "+gameDescriptionList.size());
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             Log.e("Something  ","Wrong while retring "+databaseError.getMessage());
+            dialog.dismiss();
+            databaseError.toException().printStackTrace();
             }
         });
     }
