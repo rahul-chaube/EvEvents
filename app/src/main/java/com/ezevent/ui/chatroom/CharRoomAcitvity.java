@@ -1,4 +1,4 @@
-package com.ezevent.ui.home;
+package com.ezevent.ui.chatroom;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,9 +13,6 @@ import android.view.View;
 
 import com.ezevent.R;
 import com.ezevent.controller.Constants;
-import com.ezevent.controller.PrefManager;
-import com.ezevent.ui.chatroom.CharRoomAcitvity;
-import com.ezevent.ui.chatroom.GameListAdapter;
 import com.ezevent.ui.creategame.CreateGameActivity;
 import com.ezevent.ui.creategame.GameDescription;
 import com.google.firebase.database.DataSnapshot;
@@ -25,26 +22,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class HomeActivity extends AppCompatActivity {
-    RecyclerView recyclerViewchat;
+public class CharRoomAcitvity extends AppCompatActivity {
+    RecyclerView recyclerViewGameList;
+    GameListAdapter gameListAdapter;
     LinearLayoutManager layoutManager;
-    ChatRoomAdapter gameListAdapter;
-    PrefManager prefManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-        recyclerViewchat=findViewById(R.id.recyclerGroupChat);
+        setContentView(R.layout.activity_char_room_acitvity);
+        recyclerViewGameList=findViewById(R.id.gameList);
         layoutManager=new LinearLayoutManager(this);
-        recyclerViewchat.setLayoutManager(layoutManager);
-        prefManager=new PrefManager(this);
-    }
-
-    public void createGame(View view) {
-        Log.e("Button is Called ","test ");
-        startActivity(new Intent(this, CharRoomAcitvity.class));
+        recyclerViewGameList.setLayoutManager(layoutManager);
     }
 
     @Override
@@ -54,8 +44,7 @@ public class HomeActivity extends AppCompatActivity {
         dialog.setMessage("Getting data ...");
         dialog.show();
         dialog.setCancelable(false);
-        DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child(Constants.USER_NODE)
-               .child(prefManager.getUserId()).child(Constants.My_GAMELSIT);
+        DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child(Constants.GAME_NODE);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -80,10 +69,12 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setRecyclerView(ArrayList<GameDescription> gameDescriptionList) {
-        gameListAdapter=new ChatRoomAdapter(this,gameDescriptionList);
-        recyclerViewchat.setAdapter(gameListAdapter);
+        gameListAdapter=new GameListAdapter(this,gameDescriptionList);
+        recyclerViewGameList.setAdapter(gameListAdapter);
 
     }
 
-
+    public void createNewUser(View view) {
+        startActivity(new Intent(this, CreateGameActivity.class));
+    }
 }
