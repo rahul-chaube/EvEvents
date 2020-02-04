@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.ezevent.R;
 import com.ezevent.controller.Constants;
 import com.ezevent.controller.PrefManager;
+import com.ezevent.ui.chatScreen.ChatScreenActivity;
 import com.ezevent.ui.chatroom.ChatMessage;
 import com.ezevent.ui.creategame.GameDescription;
 import com.ezevent.ui.gameDetails.GameDetailsActivity;
@@ -64,7 +65,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context, GameDetailsActivity.class);
+                Intent intent=new Intent(context, ChatScreenActivity.class);
                 intent.putExtra(Constants.GAME_DETAILS,gameDescription);
                 context.startActivity(intent);
             }
