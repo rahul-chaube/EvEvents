@@ -25,4 +25,5 @@ public class Constants {
     public static final int WINNER_ANNOUNCE_MESSAGE=2;
 
 
+    public static String MessageTIME="messageTime";
 }

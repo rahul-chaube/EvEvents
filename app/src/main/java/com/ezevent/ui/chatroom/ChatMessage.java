@@ -1,6 +1,8 @@
 package com.ezevent.ui.chatroom;
 
 
+import com.ezevent.ui.creategame.GameCreator;
+
 /**
  * Message Type Define category of message 1 - Welcome  message 2- normal message 3- announce winner
  */
@@ -9,6 +11,16 @@ public class ChatMessage {
     long messageTime;
     String senderName, senderId;
     int messageType;
+
+    GameCreator senderDetails;
+
+    public GameCreator getSenderDetails() {
+        return senderDetails;
+    }
+
+    public void setSenderDetails(GameCreator senderDetails) {
+        this.senderDetails = senderDetails;
+    }
 
     public ChatMessage() {
     }

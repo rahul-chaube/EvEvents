@@ -290,7 +290,10 @@ public class CreateGameActivity extends AppCompatActivity {
     }
 
     private void createChatNode(String key) {
-
+        GameCreator senderDetails=new GameCreator();
+        senderDetails.setUserName(prefManager.getUserName());
+        senderDetails.setMobileNumber(prefManager.getUserMobile());
+        senderDetails.setUserId(prefManager.getUserId());
         final ProgressDialog progressDialog=new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Please Wait ... ");
@@ -302,6 +305,8 @@ public class CreateGameActivity extends AppCompatActivity {
         chatMessage.setSenderName(prefManager.getUserName());
         chatMessage.setMessageTime(System.currentTimeMillis());
         chatMessage.setMessageType(Constants.WELCOME_MESSAGE);
+        chatMessage.setSenderDetails(senderDetails);
+
         String massegekey=databaseReference.push().getKey();
         databaseReference.child(Constants.CHAT_ROOM).child(gameDescription.getGameId()).child(massegekey).setValue(chatMessage).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

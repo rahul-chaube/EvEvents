@@ -52,14 +52,14 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ViewHoderSender viewHoderSender = (ViewHoderSender) holder;
             viewHoderSender.textViewMessage.setText(chatMessage.getMessage());
             Date messageTime = new Date(chatMessage.getMessageTime());
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM/yyyy HH:mm:ss.SSS");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM/yyyy HH:mm:ss");
             viewHoderSender.textViewTime.setText(sdf.format(messageTime));
 
         } else {
             ViewHolderReceiver viewHolderReceiver = (ViewHolderReceiver) holder;
             viewHolderReceiver.textViewMessage.setText(chatMessage.getMessage());
             Date messageTime = new Date(chatMessage.getMessageTime());
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM/yyyy HH:mm:ss.SSS");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM/yyyy HH:mm:ss");
             viewHolderReceiver.textViewTime.setText(sdf.format(messageTime));
         }
 

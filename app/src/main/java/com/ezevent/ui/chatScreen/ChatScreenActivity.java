@@ -15,14 +15,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.ezevent.R;
 import com.ezevent.controller.Constants;
 import com.ezevent.controller.PrefManager;
 import com.ezevent.ui.chatroom.ChatMessage;
+import com.ezevent.ui.creategame.CreateGameActivity;
+import com.ezevent.ui.creategame.GameCreator;
 import com.ezevent.ui.creategame.GameDescription;
 import com.ezevent.ui.gameDetails.GameDetailsActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -62,6 +67,41 @@ public class ChatScreenActivity extends AppCompatActivity {
 
 
         }
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!editTextSendMessage.getText().toString().isEmpty())
+                {
+                    sendmessage(editTextSendMessage.getText().toString());
+                    editTextSendMessage.setText("");
+                }
+            }
+        });
+    }
+
+    private void sendmessage(String message) {
+
+        GameCreator senderDetails=new GameCreator();
+        senderDetails.setUserName(prefManager.getUserName());
+        senderDetails.setMobileNumber(prefManager.getUserMobile());
+        senderDetails.setUserId(prefManager.getUserId());
+        DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference();
+        ChatMessage chatMessage=new ChatMessage();
+        chatMessage.setMessage(message);
+        chatMessage.setSenderId(prefManager.getUserId());
+        chatMessage.setSenderName(prefManager.getUserName());
+        chatMessage.setMessageTime(System.currentTimeMillis());
+        chatMessage.setMessageType(Constants.NORMAL_MESSAGE);
+        chatMessage.setSenderDetails(senderDetails);
+        String massegekey=databaseReference.push().getKey();
+        databaseReference.child(Constants.CHAT_ROOM).child(gameDescription.getGameId()).child(massegekey).setValue(chatMessage).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+            }
+        });
+
+
     }
 
     private void setUI(final GameDescription gameDescription) {
@@ -96,7 +136,7 @@ public class ChatScreenActivity extends AppCompatActivity {
         dialog.setCancelable(false);
         DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child(Constants.CHAT_ROOM)
                 .child(gameId);
-        databaseReference.limitToLast(100).addValueEventListener(new ValueEventListener() {
+        databaseReference.orderByChild(Constants.MessageTIME).limitToLast(100).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<ChatMessage> gameDescriptionList= new ArrayList<>();
@@ -119,7 +159,22 @@ public class ChatScreenActivity extends AppCompatActivity {
     }
 
     private void setRecyclerView(ArrayList<ChatMessage> messages) {
+
+        messages=reverseArrayList(messages);
         chatAdapter=new ChatAdapter(this,messages);
         recyclerViewChat.setAdapter(chatAdapter);
+    }
+    public ArrayList reverseArrayList(ArrayList alist)
+    {
+        // Arraylist for storing reversed elements
+        ArrayList revArrayList = new ArrayList();
+        for (int i = alist.size() - 1; i >= 0; i--) {
+
+            // Append the elements in reverse order
+            revArrayList.add(alist.get(i));
+        }
+
+        // Return the reversed arraylist
+        return revArrayList;
     }
 }
