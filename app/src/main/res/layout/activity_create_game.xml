@@ -178,6 +178,32 @@
             </LinearLayout>
 
 
+
+                <EditText
+                    android:focusable="false"
+                    android:textColorHint="@color/white"
+                    android:id="@+id/editTextGameStartDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:drawableEnd="@drawable/ic_date_range_white_24dp"
+                    android:hint="@string/game_start_date"
+                    android:textColor="@color/white" />
+
+
+                <EditText
+                    android:focusable="false"
+                    android:textColorHint="@color/white"
+                    android:id="@+id/editTextGameEndDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:drawableEnd="@drawable/ic_date_range_white_24dp"
+                    android:hint="@string/game_end_date"
+                    android:textColor="@color/white" />
+
+
+
             <LinearLayout
                 android:id="@+id/gameCredentials"
                 android:layout_width="match_parent"

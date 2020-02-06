@@ -7,9 +7,24 @@ public class GameDescription implements Serializable {
     String gameId;
     String title,description,price;
     boolean isPrivate,isPubg;
-    long createAt;
+    long createAt,startDate,endDate;
     int numberOfPlayer,gameStatus=0;
 
+    public long getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(long startDate) {
+        this.startDate = startDate;
+    }
+
+    public long getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(long endDate) {
+        this.endDate = endDate;
+    }
 
     public int getGameStatus() {
         return gameStatus;

@@ -18,7 +18,9 @@ import com.ezevent.controller.Constants;
 import com.ezevent.ui.creategame.GameDescription;
 import com.ezevent.ui.gameDetails.GameDetailsActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHolder> {
 
@@ -45,6 +47,11 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
         holder.textViewNoOfPlayer.setText("No of  Player : "+gameDescription.getNumberOfPlayer());
         holder.textViewPrize.setText("Prize \u20B9 "+gameDescription.getPrice());
         holder.textViewGameName.setText(gameDescription.getTitle());
+
+        Date messageTime=new Date(gameDescription.getStartDate());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM/yyyy HH:mm:ss aa");
+        holder.textViewDate.setText("Start at: "+sdf.format(messageTime));
+
         if (gameDescription.isPubg())
             Glide.with(context).load(R.drawable.pubg).into(holder.imageViewIcon);
         else

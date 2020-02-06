@@ -70,17 +70,21 @@
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
                 <TextView
 
                     android:id="@+id/startDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
                     android:layout_margin="4dp"
                     android:text="26-Feb-2020"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="bold" />
+
             </RelativeLayout>
 
             <RelativeLayout

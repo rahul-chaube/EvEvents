@@ -22,5 +22,7 @@
     <string name="enter_nor_player">Enter Nor player</string>
     <string name="game_title">Game Title</string>
     <string name="username">Game Host id</string>
+    <string name="game_end_date">Game End Date</string>
+    <string name="game_start_date">Game start Date</string>
 
 </resources>
