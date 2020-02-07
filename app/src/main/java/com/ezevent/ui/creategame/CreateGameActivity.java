@@ -391,6 +391,7 @@ public class CreateGameActivity extends AppCompatActivity {
     }
 
     private void saveData() {
+        gameDescription.setGameStatus(Constants.GAME_ACTIVE);
         final ProgressDialog progressDialog=new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Please Wait ... ");

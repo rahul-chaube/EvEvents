@@ -26,4 +26,9 @@ public class Constants {
 
 
     public static String MessageTIME="messageTime";
+    public static final int GAME_COMPLETED=1;
+    public static final int GAME_TERMINATED=2;
+    public static final int GAME_ACTIVE=0;
+    public static String GAME_STATUS="gameStatus";
+    public static final String POINTS="points";
 }

@@ -32,47 +32,49 @@ public class HomeActivity extends AppCompatActivity {
     LinearLayoutManager layoutManager;
     ChatRoomAdapter gameListAdapter;
     PrefManager prefManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        recyclerViewchat=findViewById(R.id.recyclerGroupChat);
-        layoutManager=new LinearLayoutManager(this);
+        recyclerViewchat = findViewById(R.id.recyclerGroupChat);
+        layoutManager = new LinearLayoutManager(this);
         recyclerViewchat.setLayoutManager(layoutManager);
-        prefManager=new PrefManager(this);
+        prefManager = new PrefManager(this);
     }
 
     public void createGame(View view) {
-        Log.e("Button is Called ","test ");
+        Log.e("Button is Called ", "test ");
         startActivity(new Intent(this, CharRoomAcitvity.class));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        final ProgressDialog dialog=new ProgressDialog(this);
+        final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setMessage("Getting data ...");
         dialog.show();
         dialog.setCancelable(false);
-        DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child(Constants.USER_NODE)
-               .child(prefManager.getUserId()).child(Constants.My_GAMELSIT);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(Constants.USER_NODE)
+                .child(prefManager.getUserId()).child(Constants.My_GAMELSIT);
+        databaseReference.keepSynced(true);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArrayList<GameDescription> gameDescriptionList= new ArrayList<>();
-                for (DataSnapshot data:dataSnapshot.getChildren()
+                ArrayList<GameDescription> gameDescriptionList = new ArrayList<>();
+                for (DataSnapshot data : dataSnapshot.getChildren()
                 ) {
                     gameDescriptionList.add(data.getValue(GameDescription.class));
                 }
 
                 setRecyclerView(gameDescriptionList);
                 dialog.dismiss();
-                Log.e("Game List Updated "," "+gameDescriptionList.size());
+                Log.e("Game List Updated ", " " + gameDescriptionList.size());
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("Something  ","Wrong while retring "+databaseError.getMessage());
+                Log.e("Something  ", "Wrong while retring " + databaseError.getMessage());
                 dialog.dismiss();
                 databaseError.toException().printStackTrace();
             }
@@ -80,7 +82,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setRecyclerView(ArrayList<GameDescription> gameDescriptionList) {
-        gameListAdapter=new ChatRoomAdapter(this,gameDescriptionList);
+        gameListAdapter = new ChatRoomAdapter(this, gameDescriptionList);
         recyclerViewchat.setAdapter(gameListAdapter);
 
     }

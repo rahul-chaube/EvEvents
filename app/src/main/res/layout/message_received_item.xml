@@ -10,6 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     <TextView
+        android:textColor="@color/green"
         android:id="@+id/sender"
         android:text="sender_name"
         android:layout_width="wrap_content"

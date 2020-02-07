@@ -11,6 +11,9 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -86,6 +89,117 @@ public class GameDetailsActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.game_admin, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.winner:
+                if (prefManager.getUserId().equalsIgnoreCase(gameDescription.getCreator().getUserId()))
+                    announce_winner();
+                else {
+                    Toast.makeText(this, "Only admin can decide Winner. For this group " + gameDescription.getCreator().getUserName() + " admin. Contact to admin.", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            case R.id.terminateGame:
+                if (prefManager.getUserId().equalsIgnoreCase(gameDescription.getCreator().getUserId()))
+                    terminateGame();
+                else {
+                    Toast.makeText(this, "Only admin can terminate Group. For this group " + gameDescription.getCreator().getUserName() + " admin. Contact to admin.", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void terminateGame() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Terminate Group ");
+        builder.setMessage("Are you sure, Want to terminate group ?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                ChatMessage chatMessage = new ChatMessage();
+                chatMessage.setMessage(" This group is terminated by  " + prefManager.getUserName());
+                chatMessage.setSenderId(prefManager.getUserId());
+                chatMessage.setSenderName(prefManager.getUserName());
+                chatMessage.setMessageTime(System.currentTimeMillis());
+                chatMessage.setMessageType(Constants.WELCOME_MESSAGE);
+                String massegekey = databaseReference.push().getKey();
+                databaseReference.child(Constants.CHAT_ROOM).child(gameDescription.getGameId()).child(massegekey).setValue(chatMessage).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                    }
+                });
+                databaseReference.child(Constants.GAME_NODE).child(gameDescription.getGameId()).child(Constants.GAME_STATUS).setValue(Constants.GAME_TERMINATED);
+
+                dialog.dismiss();
+                finish();
+            }
+        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        }).show();
+
+    }
+
+    private void announce_winner() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Winner Status ");
+        List<String> list = new ArrayList<>();
+        final List<GameCreator> gamereList = gameDescription.getGamerList();
+        for (GameCreator member : gamereList
+        ) {
+            list.add(member.getUserName());
+        }
+
+        builder.setItems(list.toArray(new String[list.size()]), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                winnerAdd(gamereList.get(which));
+                dialog.dismiss();
+            }
+        }).show();
+
+
+    }
+
+    private void winnerAdd(GameCreator gameCreator) {
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        ChatMessage chatMessage = new ChatMessage();
+        chatMessage.setMessage(" Congratulation  " + gameCreator.getUserName() +" You won the game.");
+        chatMessage.setSenderId(prefManager.getUserId());
+        chatMessage.setSenderName(prefManager.getUserName());
+        chatMessage.setMessageTime(System.currentTimeMillis());
+        chatMessage.setMessageType(Constants.WELCOME_MESSAGE);
+        String massegekey = databaseReference.push().getKey();
+        databaseReference.child(Constants.CHAT_ROOM).child(gameDescription.getGameId()).child(massegekey).setValue(chatMessage).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+            }
+        });
+        databaseReference.child(Constants.GAME_NODE).child(gameDescription.getGameId()).child(Constants.GAME_STATUS).setValue(Constants.GAME_COMPLETED);
+        databaseReference.child(Constants.USER_NODE).child(gameCreator.getUserId()).child(Constants.POINTS).setValue(gameDescription.getPrice());
+
+
+        finish();
     }
 
     private void createCustomDialog(final GameDescription gameDescription) {
@@ -178,18 +292,18 @@ public class GameDetailsActivity extends AppCompatActivity {
     }
 
     private void addToChatNode(GameDescription gameDescription) {
-        final ProgressDialog progressDialog=new ProgressDialog(this);
+        final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Please Wait ... ");
         progressDialog.show();
-        DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference();
-        ChatMessage chatMessage=new ChatMessage();
-        chatMessage.setMessage(prefManager.getUserName()+" Join  "+gameDescription.getTitle() +" playground");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        ChatMessage chatMessage = new ChatMessage();
+        chatMessage.setMessage(prefManager.getUserName() + " Join  " + gameDescription.getTitle() + " playground");
         chatMessage.setSenderId(prefManager.getUserId());
         chatMessage.setSenderName(prefManager.getUserName());
         chatMessage.setMessageTime(System.currentTimeMillis());
         chatMessage.setMessageType(Constants.WELCOME_MESSAGE);
-        String massegekey=databaseReference.push().getKey();
+        String massegekey = databaseReference.push().getKey();
         databaseReference.child(Constants.CHAT_ROOM).child(gameDescription.getGameId()).child(massegekey).setValue(chatMessage).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

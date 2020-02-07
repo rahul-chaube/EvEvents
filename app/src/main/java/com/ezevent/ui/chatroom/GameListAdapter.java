@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -64,6 +65,13 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
                 context.startActivity(intent);
             }
         });
+
+        if (gameDescription.getGameStatus()==Constants.GAME_COMPLETED)
+        {
+            holder.linearLayoutParent.setBackgroundColor(context.getResources().getColor(R.color.green_transparent));
+        }
+        else if (gameDescription.getGameStatus()==Constants.GAME_TERMINATED)
+            holder.linearLayoutParent.setBackgroundColor(context.getResources().getColor(R.color.red_transparent));
     }
 
     @Override
@@ -74,9 +82,11 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
     class ViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
         ImageView  imageViewIcon;
+        LinearLayout linearLayoutParent;
         TextView textViewGameName,textViewPrize,textViewDate,textViewNoOfPlayer,textViewDescription;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            linearLayoutParent=itemView.findViewById(R.id.parentLayout);
             cardView=itemView.findViewById(R.id.main);
             imageViewIcon=itemView.findViewById(R.id.gameIcon);
             textViewGameName=itemView.findViewById(R.id.gameName);

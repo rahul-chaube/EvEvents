@@ -120,10 +120,17 @@ public class ChatScreenActivity extends AppCompatActivity {
             }
         });
 
-        if (gameDescription.getCreator().getUserId().equalsIgnoreCase(prefManager.getUserId()))
+        if (gameDescription.getGameStatus()==Constants.GAME_ACTIVE)
+        {
             editTextSendMessage.setEnabled(true);
+        }
         else
             editTextSendMessage.setEnabled(false);
+
+//        if (gameDescription.getCreator().getUserId().equalsIgnoreCase(prefManager.getUserId()))
+//            editTextSendMessage.setEnabled(true);
+//        else
+//            editTextSendMessage.setEnabled(false);
         
         getMesage(gameDescription.getGameId());
                 
